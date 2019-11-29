@@ -1,0 +1,23 @@
+* Class
+- [ ] Github usernames!
+- [ ] Homework 1 up
+
+* Types
+** Type inference
+   file:./type_inference.rs
+** Machine Types
+   file:./machine_types.rs
+** structured types
+   file:./structured_types.rs
+** array types
+   file:./array_types.rs
+
+* Expressions
+  Expression vs statement
+
+  Rust is an expression language.
+
+  In C we have if and switch statement.
+
+  file:./expressions.rs
+
