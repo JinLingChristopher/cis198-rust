@@ -45,7 +45,6 @@ fn machine_types() {
     // in bytes matters.
     // https://stackoverflow.com/questions/11438794/is-the-size-of-c-int-2-bytes-or-4-bytes
 
-
     // Why doesn't C specify a size for integers?
 
     // Whats happens if we try to use a non usize for an array index?
@@ -64,7 +63,6 @@ fn machine_types() {
 
     // }
     // Use as operator to convert to different types:
-
 }
 
 // Arrays and vectors.
@@ -111,7 +109,7 @@ fn slices() {
 
     // Accept a vector:
     // Write functions that can take either.
-    fn print(s: &[i32]){
+    fn print(s: &[i32]) {
         unimplemented!()
     }
 
@@ -146,9 +144,7 @@ fn strings() {
     let oodles: &str = &noodles[1..];
     let poodles = "ಠ_ಠ"; // Pre allocated read-only memory.
 
-    fn print(s: &str) {
-
-    }
+    fn print(s: &str) {}
 
     // Notice `str` by _itself_ is a type! What does this mean?
     let x: Box<str> = noodles.into_boxed_str();
@@ -248,15 +244,9 @@ fn unit_type() -> () {
 
 // ifs are expressions, not statements.
 // What is the difference between an expression and statement?
-fn if_expr(b : bool) {
-    let x: i32 =
-        if b {
-            5
-        } else {
-            10
-        };
+fn if_expr(b: bool) {
+    let x: i32 = if b { 5 } else { 10 };
 }
-
 
 fn while_loop(b: bool) {
     while b {
@@ -337,8 +327,7 @@ fn build_vector_final() -> Vec<i16> {
 
 // NOTE: Will NOT talk about in class.
 fn reference_dereference(s: &mut String) {
-
-    fn f(i: i32){
+    fn f(i: i32) {
         unimplemented!()
     }
 
@@ -355,10 +344,10 @@ fn closure() {
     let f = |y| y + 3;
     assert_eq!(f(5), 8);
 
-    let is_even = |x: i32| -> bool {x % 2 == 0};
+    let is_even = |x: i32| -> bool { x % 2 == 0 };
 
     // Type inference.
-    let vec : Vec<i32> = vec![1, 2, 3, 4, 5];
+    let vec: Vec<i32> = vec![1, 2, 3, 4, 5];
     let vec2 = vec.into_iter().filter(|x| x % 2 == 0).collect::<Vec<i32>>();
 
     // let ht: HashMap<i32, i32> = v.clone().into_iter().map(|x| (x, x)).collect();
