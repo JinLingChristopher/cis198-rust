@@ -10,7 +10,17 @@
 // Problem 1
 // Implement the sum function on slices. Do not use the predefined sum function.
 fn sum(slice: &[i32]) -> i32 {
-    unimplemented!()
+    let mut sum = 0;
+    for item in slice {
+        sum += item;
+    }
+    sum
+}
+
+#[test]
+fn sum_tests() {
+    assert_eq!(sum(&[1, 2, 3]), 6);
+    assert_eq!(sum(&[]), 0);
 }
 
 // Problem 2.
@@ -23,23 +33,22 @@ fn unique(vs: &Vec<i32>) -> Vec<i32> {
 
 // Problem 3.
 // return a new vector containing only elements that satisfy `pred`.
-fn filter(vs: & Vec<i32>, pred: &dyn Fn(i32) -> bool) -> Vec<i32> {
+fn filter(vs: &Vec<i32>, pred: &dyn Fn(i32) -> bool) -> Vec<i32> {
     unimplemented!()
 }
 
 #[test]
-fn filter_tests(){
-    assert_eq!(filter(& vec![1, 2, 3, 4, 5, 6], & |n| n % 2 == 0),
-              vec![2, 4, 6]);
+fn filter_tests() {
+    assert_eq!(
+        filter(&vec![1, 2, 3, 4, 5, 6], &|n| n % 2 == 0),
+        vec![2, 4, 6]
+    );
 }
-
 
 // Problem 4
 // Given starting fibonacci numbers n1 and n2, compute a vector
 // where v[i] is the ith fibonacci number.
-fn fibonacci(n1: i32, n2: i32, how_many: usize) -> Vec<i32> {
-    unimplemented!()
-}
+fn fibonacci(n1: i32, n2: i32, how_many: usize) -> Vec<i32> {}
 
 // Problem 5
 // Create a function which concats 2 strs and returns a String.
