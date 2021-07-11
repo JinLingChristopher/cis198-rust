@@ -2,13 +2,12 @@
 
 primitive types, pointers, arrays, strings
 
-- Expressions
-
-blocks, ifs, loops, functions, typecasts, closures
-
 - Ownership
 
-moves, copy types
+* borrowing
+* slices
+* data layout
+
 
 - References
 
