@@ -23,17 +23,20 @@
     Which of the three do you prefer?
 */
 
+// n is not changefeed
 pub fn double_v1(n: i32) -> i32 {
-    unimplemented!()
+    return n * 2;
 }
 
+// n is a pointer to i32, it's content does not changed
 pub fn double_v2(n: &i32) -> i32 {
-    unimplemented!()
+    *n * 2
 }
 
+// n is a mutable pointer to i32, change it's content
 pub fn double_v3(n: &mut i32) {
     // double n in place
-    unimplemented!()
+    *n *= 2
 }
 
 // Example unit test (so you can recall the syntax)
@@ -41,13 +44,35 @@ pub fn double_v3(n: &mut i32) {
 fn test_double_v1() {
     assert_eq!(double_v1(2), 4);
     assert_eq!(double_v1(-3), -6);
+    assert_eq!(double_v1(0), 0);
 }
-// #[test]
-// fn test_double_v2() {
-// }
-// #[test]
-// fn test_double_v3() {
-// }
+
+#[test]
+fn test_double_v2() {
+    let a = 3;
+    assert_eq!(double_v2(&a), 6);
+
+    let a = -1;
+    assert_eq!(double_v2(&a), -2);
+
+    let a = 0;
+    assert_eq!(double_v2(&a), 0);
+}
+
+#[test]
+fn test_double_v3() {
+    let mut a = 3;
+    double_v3(&mut a);
+    assert_eq!(a, 6);
+
+    a = 0;
+    double_v3(&mut a);
+    assert_eq!(a, 0);
+
+    a = -1;
+    double_v3(&mut a);
+    assert_eq!(a, -2);
+}
 
 /*
     Problem 2: Integer square root
@@ -57,10 +82,23 @@ fn test_double_v1() {
     efficiently than trying every possibility.
 */
 pub fn sqrt(n: usize) -> usize {
-    unimplemented!()
+    let mut result = 0;
+    while result * result <= n {
+        result += 1
+    }
+    result - 1
 }
 
-// Remember to write unit tests here (and on all future functions)
+#[test]
+fn test_sqrt() {
+    assert_eq!(sqrt(0), 0);
+    assert_eq!(sqrt(1), 1);
+    assert_eq!(sqrt(2), 1);
+    assert_eq!(sqrt(3), 1);
+    assert_eq!(sqrt(4), 2);
+    assert_eq!(sqrt(7), 2);
+    assert_eq!(sqrt(9), 3);
+}
 
 /*
     Problem 3: Slice sum
@@ -74,19 +112,37 @@ pub fn sqrt(n: usize) -> usize {
     Which of the two ways do you prefer?
 */
 pub fn sum_v1(slice: &[i32]) -> i32 {
-    // do some initialization...
+    let mut result = 0;
     for &v in slice {
-        // ...
+        result += v;
     }
-    unimplemented!()
+    result
+}
+
+#[test]
+fn test_sum_v1() {
+    let numbers = [1, 2, 3, 4, 5];
+    assert_eq!(sum_v1(&numbers), 15);
+
+    let a = [0; 0];
+    assert_eq!(sum_v1(&a), 0);
 }
 
 pub fn sum_v2(slice: &[i32]) -> i32 {
-    // do some initialization...
+    let mut result = 0;
     for v in slice {
-        // ...
+        result += *v
     }
-    unimplemented!()
+    result
+}
+
+#[test]
+fn test_sum_v2() {
+    let a = [0; 0];
+    assert_eq!(sum_v2(&a), 0);
+
+    let b = [1, 2, 3, 4, 5];
+    assert_eq!(sum_v2(&b), 15);
 }
 
 /*
@@ -98,7 +154,26 @@ pub fn sum_v2(slice: &[i32]) -> i32 {
 */
 
 pub fn unique(slice: &[i32]) -> Vec<i32> {
-    unimplemented!()
+    let mut result:Vec<i32> = Vec::new();
+    for v in slice {
+        let mut find = false;
+        for item in &result {
+            if *v == *item {
+                find = true;
+                break
+            }
+        }
+        if !find {
+            result.push(*v);
+        }
+    }
+    result
+}
+
+#[test]
+fn test_unique() {
+    let a = [1, 2, 3, 1, 2, 3];
+    assert_eq!(unique(&a), [1, 2, 3]);
 }
 
 /*
@@ -109,7 +184,13 @@ pub fn unique(slice: &[i32]) -> Vec<i32> {
     to know is that pred is a function from i32 to bool.
 */
 pub fn filter(slice: &[i32], pred: impl Fn(i32) -> bool) -> Vec<i32> {
-    unimplemented!()
+    let mut result = Vec::new();
+    for v in slice {
+        if pred(*v) {
+            result.push(*v)
+        }
+    }
+    result
 }
 
 #[test]
@@ -128,7 +209,32 @@ fn test_filter() {
     where v[i] is the ith fibonacci number.
 */
 pub fn fibonacci(n1: i32, n2: i32, out_size: usize) -> Vec<i32> {
-    unimplemented!()
+    if out_size == 0 {
+        return vec![];
+    }
+    if out_size == 1 {
+        return vec![n1];
+    }
+
+    let mut result = vec![n1, n2];
+    for i in 2..out_size {
+        let a= result[result.len() - 1] + result[result.len() - 2];
+        result.push(a);
+    }
+    result
+}
+
+#[test]
+fn test_fibonacci() {
+    assert_eq!(fibonacci(0, 1, 0), []);
+    assert_eq!(fibonacci(0, 1, 1), [0]);
+    assert_eq!(fibonacci(0, 1, 2), [0, 1]);
+    assert_eq!(fibonacci(0, 1, 3), [0, 1, 1]);
+    assert_eq!(fibonacci(0, 1, 4), [0, 1, 1, 2]);
+    assert_eq!(fibonacci(0, 1, 5), [0, 1, 1, 2, 3]);
+    assert_eq!(fibonacci(0, 1, 6), [0, 1, 1, 2, 3, 5]);
+
+    assert_eq!(fibonacci(2, 3, 6), [2, 3, 5, 8, 13, 21]);
 }
 
 /*
@@ -142,11 +248,27 @@ pub fn fibonacci(n1: i32, n2: i32, out_size: usize) -> Vec<i32> {
     What are some reasons the second function is not efficient?
 */
 pub fn str_concat(s1: &str, s2: &str) -> String {
-    unimplemented!()
+    format!("{}{}", s1, s2)
+}
+
+#[test]
+fn test_str_concat() {
+    let a = "hello ";
+    let b = "world";
+
+    assert_eq!(str_concat(a, b), "hello world".to_string());
 }
 
 pub fn string_concat(s1: String, s2: String) -> String {
-    unimplemented!()
+    s1 + &s2
+}
+
+#[test]
+fn test_string_concat() {
+    let a = "hello ".to_string();
+    let b = "world".to_string();
+
+    assert_eq!(string_concat(a, b), "hello world".to_string());
 }
 
 /*
@@ -157,7 +279,21 @@ pub fn string_concat(s1: String, s2: String) -> String {
 */
 
 pub fn concat_all(v: Vec<String>) -> String {
-    unimplemented!()
+    let mut result = "".to_string();
+    for s in v {
+        result = string_concat(result, s)
+    }
+    result
+}
+
+#[test]
+fn test_concat_all() {
+    let words = vec![
+        "this ".to_string(),
+        "is ".to_string(),
+        "21th ".to_string(),
+        "century".to_string()];
+    assert_eq!(concat_all(words), "this is 21th century");
 }
 
 /*
@@ -175,11 +311,26 @@ pub fn concat_all(v: Vec<String>) -> String {
 */
 
 pub fn parse_all(v: Vec<String>) -> Vec<i32> {
-    unimplemented!()
+    let mut result = Vec::new();
+    for s in v {
+        let number = s.parse().expect("s is not a valid number");
+        result.push(number);
+    }
+    result
+}
+
+#[test]
+fn test_parse_all() {
+    let data = vec!["1".to_string(), "3".to_string()];
+    assert_eq!(parse_all(data), [1, 3]);
 }
 
 pub fn print_all(v: Vec<i32>) -> Vec<String> {
-    unimplemented!()
+    let mut result = Vec::new();
+    for item in v {
+        result.push(item.to_string());
+    }
+    result
 }
 
 #[test]
@@ -202,15 +353,23 @@ fn test_parse_print() {
     For example: if n = 6, the first 5 Fibonacci numbers are 1, 1, 2, 3, 5, 8,
     so the function should return the String "28".
 
+    if n = 9, 1, 1, 2, 3, 5, 8, 13, 21, 34
+
     Don't use a for loop! Your previous functions should be sufficient.
 */
 
-pub fn concat_even_fibonaccis(n: usize) -> String {
-    unimplemented!()
+pub fn concat_even_fibonacci(n: usize) -> String {
+    let fibs = fibonacci(1, 1, n);
+    fn is_even(n: i32) -> bool {
+        n % 2 == 0
+    }
+    let even_fibs = filter(&fibs, is_even);
+
+    concat_all(print_all(even_fibs))
 }
 
 #[test]
-fn test_concat_even_fibonaccis() {
-    assert_eq!(&concat_even_fibonaccis(6), "28");
-    assert_eq!(&concat_even_fibonaccis(9), "2834");
+fn test_concat_even_fibonacci() {
+    assert_eq!(&concat_even_fibonacci(6), "28");
+    assert_eq!(&concat_even_fibonacci(9), "2834");
 }
