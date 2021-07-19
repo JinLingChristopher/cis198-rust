@@ -27,9 +27,20 @@
     the same, i.e. swap_ints(&mut x, &mut x).)
 */
 pub fn swap_ints(x1: &mut i32, x2: &mut i32) {
-    unimplemented!()
+    let t = *x1;
+    *x1 = *x2;
+    *x2 = t;
 }
 
+#[test]
+fn swap_ints_test() {
+    let mut a = 1;
+    let mut b = 2;
+    swap_ints(&mut a, &mut b);
+
+    assert_eq!(a, 2);
+    assert_eq!(b, 1);
+}
 /*
     Problem 2: String duplication
 */
@@ -52,7 +63,21 @@ fn copy_int_test() {
 
 // Now implement the following function that duplicates a string n times.
 fn duplicate_string(s: &str, times: usize) -> Vec<String> {
-    unimplemented!()
+    let t = s.to_string();
+    let mut result = Vec::new();
+    for _ in 0..times {
+        result.push(t.clone());
+    }
+    result
+}
+
+#[test]
+fn duplicate_string_test() {
+    let s = "chio";
+    let obtained = duplicate_string(s, 3);
+    let expected = vec!["chio", "chio", "chio"];
+
+    assert_eq!(expected, obtained);
 }
 
 /*
@@ -63,22 +88,22 @@ fn duplicate_string(s: &str, times: usize) -> Vec<String> {
     it's called.
 */
 
-// fn copy_me(string: /* Change in here only*/ String) -> String {
-//     string.clone()
-// }
+fn copy_me(string: /* Change in here only*/ &String) -> String {
+    string.clone()
+}
 
-// #[test]
-// fn copy_me_test() {
-//     let str1 = String::from("foo");
-//     assert_eq!(str1, copy_me(/* Change in here only*/ str1));
-// }
+#[test]
+fn copy_me_test() {
+    let str1 = String::from("foo");
+    assert_eq!(str1, copy_me(/* Change in here only*/ &str1));
+}
 
-// #[test]
-// fn copy_me_test2() {
-//     let str1 = String::from("foo");
-//     let str2 = copy_me(str1 /* Change in here only*/);
-//     assert_eq!(str1, str2);
-// }
+#[test]
+fn copy_me_test2() {
+    let str1 = String::from("foo");
+    let str2 = copy_me(&str1 /* Change in here only*/);
+    assert_eq!(str1, str2);
+}
 
 /*
     Problem 4: Lifetime specifiers
@@ -93,12 +118,12 @@ fn duplicate_string(s: &str, times: usize) -> Vec<String> {
 // fn new_ref_string() -> &String {
 //     unimplemented!();
 // }
-
+//
 // fn new_ref_str() -> &str {
 //     unimplemented!();
 // }
-
-// The same function from part2
+//
+// // The same function from part2
 // fn pick_longest2(s1: &str, s2: &str) -> &str {
 //     unimplemented!()
 // }
@@ -199,6 +224,7 @@ fn append_row(grid: &mut Vec<Vec<bool>>, row: Vec<bool>) {
 fn is_first_row(grid: &[Vec<bool>], row: &[bool]) -> bool {
     // Check if row is the first row in grid
     // Remember to handle the case when grid is empty
+    return true
 }
 
 /*

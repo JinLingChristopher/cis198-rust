@@ -7,11 +7,6 @@
     Also answer the questions in text.
 */
 
-// Remove these once you are done editing the file!
-// This will result in useful warnings if you missed something.
-#![allow(dead_code)]
-#![allow(unused_variables)]
-
 /*
     Problem 1: Double
 
@@ -217,7 +212,7 @@ pub fn fibonacci(n1: i32, n2: i32, out_size: usize) -> Vec<i32> {
     }
 
     let mut result = vec![n1, n2];
-    for i in 2..out_size {
+    for _ in 2..out_size {
         let a= result[result.len() - 1] + result[result.len() - 2];
         result.push(a);
     }

@@ -6,10 +6,6 @@
     Answer the questions as a comment next to the problems.
 */
 
-// Remove these once you are done editing the file!
-#![allow(dead_code)]
-#![allow(unused_variables)]
-
 use std::fs::File;
 use std::io::Read;
 
@@ -25,37 +21,52 @@ use std::io::Read;
 // split_ref must have the return type Vec<&str>
 // split_clone must have the return type Vec<String>
 
-// #[test]
-// fn test_split_ref(){
-//     let string = "Hello World!".to_string();
-//     assert_eq!(split_ref(& string), ["Hello", "World!"]);
-//     assert_eq!(split_ref("Hello World!"), & ["Hello", "World!"]);
-//     assert_eq!(split_ref("Hello World!"), vec!["Hello", "World!"]);
-// }
+fn split_ref(s: &str) -> Vec<&str> {
+    s.split(' ').collect()
+}
 
-// #[test]
-// fn test_split_clone(){
-//     let string = "Hello World!".to_string();
-//     assert_eq!(split_clone(& string), ["Hello", "World!"]);
-//     assert_eq!(split_clone("Hello World!"), & ["Hello", "World!"]);
-//     assert_eq!(split_clone("Hello World!"), vec!["Hello", "World!"]);
-// }
+fn split_clone(s: &str) -> Vec<String> {
+    s.split(' ').map(|x| x.to_string()).collect()
+}
+
+#[test]
+fn test_split_ref(){
+    let string = "Hello World!".to_string();
+    assert_eq!(split_ref(& string), ["Hello", "World!"]);
+    assert_eq!(split_ref("Hello World!"), & ["Hello", "World!"]);
+    assert_eq!(split_ref("Hello World!"), vec!["Hello", "World!"]);
+}
+
+#[test]
+fn test_split_clone(){
+    let string = "Hello World!".to_string();
+    assert_eq!(split_clone(& string), ["Hello", "World!"]);
+    assert_eq!(split_clone("Hello World!"), & ["Hello", "World!"]);
+    assert_eq!(split_clone("Hello World!"), vec!["Hello", "World!"]);
+}
 
 /*
     Problem 2: Longest string
 
-    Write function pick_longest which picks the longests of two &str arguments.
+    Write function pick_longest which picks the longest of two &str arguments.
     Taking &str arguments makes it more general than taking Strings.
     Return a new String (we will see later how to return a &str.)
 */
 
-// #[test]
-// fn test_pick_longest {
-//     assert_eq!(
-//         pick_longest(& "cat".to_string(), & "dog".to_string()),
-//         "cat".to_string()
-//     );
-// }
+fn pick_longest(a: &str, b: &str) -> String {
+    if a.len() >= b.len() {
+        return a.to_string();
+    }
+    b.to_string()
+}
+
+#[test]
+fn test_pick_longest() {
+    assert_eq!(
+        pick_longest(& "cat".to_string(), & "dog".to_string()),
+        "cat".to_string()
+    );
+}
 
 // Question 1:
 // For the curious, attempt to return reference, that is:
@@ -65,12 +76,14 @@ use std::io::Read;
 // What goes wrong when you try to implement this function? Why is this
 // the case?
 
+// ans: return type contains a borrowed value, but the signature does not say where it is borrowed from .
+
 /*
     Problem 3: File to string
 
     Write a function that returns all the contents of a file as a single String.
 
-    DO NOT USE the assocated function std::fs::read_to_string
+    DO NOT USE the associated function std::fs::read_to_string
 
     Instead use File::open, and the method read_to_string
     (https://doc.rust-lang.org/std/io/trait.Read.html#method.read_to_string)
@@ -80,7 +93,11 @@ use std::io::Read;
 */
 
 pub fn file_to_string(path: &str) -> String {
-    unimplemented!()
+    let mut result = "".to_string();
+    File::open(path).expect("open file failed")
+        .read_to_string(&mut result).expect("read to string failed");
+
+    result
 }
 
 /*
@@ -94,25 +111,10 @@ pub fn file_to_string(path: &str) -> String {
 #[test]
 fn test_add1() {
     let mut x = 1;
-    add1(x);
+    add1(&mut x);
     assert_eq!(x, 2);
 }
 
-pub fn add1(mut x : i32) -> () {
-    x += 1;
+pub fn add1(x : &mut i32) -> () {
+    *x += 1;
 }
-
-/*
-    Problem 5: Mutability continued
-
-    The error says: cannot assign to immutable borrowed content `*str1`
-    But we declared it mutable? Fix by changing only the line below.
-*/
-// pub fn mut2() {
-//     let hello = String::from("hello");
-//
-//     // CHANGE ONLY THIS LINE:
-//     let mut str1: &String = &String::from("str1");
-//
-//     *str1 = hello;
-// }
