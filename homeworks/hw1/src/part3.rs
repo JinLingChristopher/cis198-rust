@@ -8,8 +8,6 @@
 */
 
 // Remove these once you are done editing the file!
-#![allow(dead_code)]
-#![allow(unused_variables)]
 
 /*
     Problem 1: Swap ints
