@@ -41,8 +41,7 @@ Example:
 ../rust_find/src/main.rs
 ```
 
-Notice that we call `cargo run` with the separator `--` between our programs arguments. This is needed to disambiguate the arguments to cargo
-from our arguments.
+Notice that we call `cargo run` with the separator `--` between our programs arguments. This is needed to disambiguate the arguments to cargo from our arguments.
 
 This command will return all files which end with `.rs` in the directory `./src` and all sub-directories. We will use Rust's
 regular expression engine, so the syntax for regular expressions may be different from what you're used to in other

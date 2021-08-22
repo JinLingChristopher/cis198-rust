@@ -1,3 +1,5 @@
+mod file;
+
 #[derive(Debug)]
 pub struct MyFile {
     name: String,
