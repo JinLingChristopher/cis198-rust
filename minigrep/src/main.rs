@@ -12,7 +12,7 @@ fn main() {
     );
 
     println!("search for `{}` in the source `{}`", conf.target, conf.filename);
-    if let Err(e) = conf.run() {
+    if let Err(e) = minigrep::run(&conf) {
         println!("Application error: {}", e);
         process::exit(1);
     }
